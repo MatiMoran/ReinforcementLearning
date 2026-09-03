@@ -1,5 +1,6 @@
 # Output del libro convertido (generado por bibliografia/convertir_libro.py)
-libro/
+bibliografia/libro/
+bibliografia/*.pdf
 
 # Python bytecode
 __pycache__/

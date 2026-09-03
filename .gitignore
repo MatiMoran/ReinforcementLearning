@@ -1,0 +1,6 @@
+# Output del libro convertido (generado por bibliografia/convertir_libro.py)
+libro/
+
+# Python bytecode
+__pycache__/
+*.py[cod]

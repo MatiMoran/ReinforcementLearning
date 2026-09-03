@@ -1,6 +1,6 @@
-# Output del libro convertido (generado por bibliografia/convertir_libro.py)
-bibliografia/libro/
+# Archivos fuente que se empaquetan por partes en .zip (no se suben en crudo)
 bibliografia/*.pdf
+bibliografia/*.epub
 
 # Python bytecode
 __pycache__/

@@ -1,4 +1,4 @@
-A diferencia de los modelos anteriores, Los métodos Monte Carlo no necesitan un modelo y puede aprender solo de la experiencia.
+A diferencia de los modelos anteriores, Los métodos Monte Carlo no necesitan las dinámicas del entorno (modelo del mundo) y pueden aprender solo de la experiencia.
 
 Esto nos da algunas ventajas:
 \begin{itemize}
@@ -51,14 +51,14 @@ y esto puede resultar un problema ya que puede darse el caso que nunca evaluemos
 
 \medskip
 
-Para abordar el problema de los pares Estado-Valor que nunca sean visitados y garantizar exploración vamos a implementar una Política On-Policy y Off-Policy:
+Para abordar el problema de los pares Estado-Valor que nunca sean visitados y garantizar exploración vamos a estudiar dos estrategias: On-Policy y Off-Policy:
 
 \begin{itemize}
-    \item La policy On-Policy va a ser una $\varepsilon$-soft que va a ejecutar acciones al azar algunas veces y otras veces va a ejecutar acciones greedy sobre $Q(a,s)$. Esta policy On garantiza que vamos a explorar siempre
-    \item la Off-Policy que va a aprender de los datos generados por la primera. Esta va a ser una policy greedy sobre $Q(a,s)$
+    \item La estrategia On-Policy va a ser una que va a ejecutar acciones al azar algunas veces con probabilidad $\varepsilon$ y el resto de las veces va a ejecutar acciones greedy sobre $Q(a,s)$. Esta estrategia on-policy nos nos dará como resultado una policy que garantiza que vamos a explorar siempre, lo que significa que nuestra politica óptima, luego de ser entrenada y enviada a deployment (por ejemplo) igual seguirá tomando acciones al azar. Embebimos la necesidad de exploración en la misma politica que optimizamos, haciendo que lleguemos a una politica $\varepsilon$-soft que \textbf{no} es la verdadera óptima porque la óptima siempre es greedy.
+    \item En la estrategia Off-Policy tenemos dos policies que vamos a optimizar. Una es la policy Target $\pi$ que es la que va a converger en la verdadera politica óptima para el problema, esta no explora nunca. Pero para poder llegar a eso necesitamos la politica exploratoria (tambien llamada politica behavior $b$) que va a conseguir los datos necesarios para poder conseguir la política óptima. Es cómo dividir las tareas, $\pi$ convergerá a ser una policy greedy sobre $Q(a,s)$ (la mejor policy para el problema), $b$ se encarga de explorar.
 \end{itemize}
 
-También se llama a estas policies Behaviour (on policy) y Target (off policy) porque vamos a aprender la policy óptima (off) usando información generada por la de behaviour (on). Algo necesario de esto es que Condición de coverage: toda acción posible bajo la política off sea posible en la política on
+También se llama a estas policies Behaviour (on policy) y Target (off policy) porque vamos a aprender la policy óptima (off) usando información generada por la de behaviour (on). Algo necesario de esto es que Condición de coverage: toda acción posible bajo la política off sea posible en la política on. Esto no quiere decir que la política behaviour sea la misma de la On-Policy (pero puede serlo) el único requísito es que cumpla esa condición de coverage.
 
 \medskip
 
@@ -67,4 +67,5 @@ El truco para poder estimar los Estado-Valor de la política target usando los d
 \begin{align}
 \rho_{t:T-1} = \prod_{k=t}^{T-1} \frac{\pi(A_k \mid S_k)}{b(A_k \mid S_k)} \tag{5.3}
 \end{align}
+
 
